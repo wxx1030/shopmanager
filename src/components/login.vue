@@ -26,14 +26,15 @@ export default {
   },
   methods: {
     //   登录请求
-    handleLogin () {
-      this.$http
-        .post('login', this.formdata)
-        .then((res) => {
-          console.log(res)
-          const {data:{meta:{msg,status},data}} = res
+    async handleLogin () {
+      
+      const res= await this.$http.post('login', this.formdata)
+      const {
+        data:{meta:{msg,status},
+        data}} = res
           if (status === 200) {
-             
+            //  保存token
+            localStorage.setItem('token', data.token)
             //  提示框
              
             // this.$message({
@@ -58,14 +59,14 @@ export default {
             // 简单写法
             this.$message.warning(msg)
           }
-        })
+        
     }
   }
 }
 </script>
 
 <style>
-.wrap {
+.wrap { 
     height: 100%;
     background-color: #324152;
     display: flex;
@@ -83,3 +84,34 @@ export default {
   width: 100%;
 }
 </style>
+
+// .then((res) => {
+//           console.log(res)
+//           const {data:{meta:{msg,status},data}} = res
+//           if (status === 200) {
+             
+//             //  提示框
+             
+//             // this.$message({
+//             //   message: msg,
+//             //   type: 'success'
+//             // });
+//             // 简单写法
+//             // this.$message.success(msg)
+//             // 渲染home.vue -->改标识-->编程式导航
+//             this.$router.push({
+//               name:"home"
+//             })
+             
+//           }else {
+            
+//             //  提示框
+             
+//             // this.$message({
+//             //   message: msg,
+//             //   type: 'warning'
+//             // });
+//             // 简单写法
+//             this.$message.warning(msg)
+//           }
+//         })
